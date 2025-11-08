@@ -1,0 +1,244 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Life Diary | Write a Memory</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: radial-gradient(circle at 20% 20%, #1e3c72, #2a5298 40%, #111 90%);
+      overflow-x: hidden;
+      color: white;
+      position: relative;
+    }
+
+    /* Floating Particles */
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      animation: float 10s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0px); opacity: 0.5; }
+      50% { transform: translateY(-20px); opacity: 0.8; }
+      100% { transform: translateY(0px); opacity: 0.5; }
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 30px 60px;
+      z-index: 5;
+      position: relative;
+    }
+
+    .brand {
+      font-size: 1.9rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      background: linear-gradient(45deg, #a3bffa, #ffffff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .nav-buttons a {
+      background: rgba(255,255,255,0.1);
+      padding: 10px 20px;
+      border-radius: 12px;
+      margin-left: 10px;
+      color: #fff;
+      text-decoration: none;
+      backdrop-filter: blur(8px);
+      transition: 0.3s;
+    }
+
+    .nav-buttons a:hover {
+      background: rgba(255,255,255,0.25);
+      transform: translateY(-2px);
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      z-index: 5;
+    }
+
+    .glass-card {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 24px;
+      padding: 50px;
+      width: 90%;
+      max-width: 700px;
+      text-align: center;
+      box-shadow: 0 0 40px rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(20px);
+      animation: fadeIn 1.2s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    textarea {
+      width: 100%;
+      height: 180px;
+      background: rgba(255, 255, 255, 0.12);
+      border: none;
+      border-radius: 16px;
+      padding: 18px;
+      color: #fff;
+      font-size: 1rem;
+      resize: none;
+      outline: none;
+    }
+
+    textarea::placeholder {
+      color: #aaa;
+    }
+
+    button {
+      margin-top: 20px;
+      background: linear-gradient(45deg, #667eea, #764ba2);
+      border: none;
+      color: white;
+      padding: 12px 36px;
+      font-weight: 600;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    button:hover {
+      background: linear-gradient(45deg, #7a85ff, #9d6fe5);
+      transform: scale(1.05);
+    }
+
+    .login-prompt {
+      color: #ddd;
+      font-size: 1rem;
+      margin-top: 20px;
+    }
+
+    .login-prompt a {
+      color: #a3bffa;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .login-prompt a:hover {
+      text-decoration: underline;
+    }
+
+    footer {
+      text-align: center;
+      color: #aaa;
+      font-size: 0.85rem;
+      padding: 30px 0;
+      z-index: 5;
+      position: relative;
+    }
+
+    /* Floating circles background */
+    .bg-bubbles {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .bg-bubbles li {
+      position: absolute;
+      list-style: none;
+      display: block;
+      width: 20px;
+      height: 20px;
+      background: rgba(255, 255, 255, 0.15);
+      bottom: -120px;
+      animation: rise 25s infinite;
+      border-radius: 50%;
+    }
+
+    @keyframes rise {
+      0% { transform: translateY(0) rotate(0deg); opacity: 0.5; }
+      100% { transform: translateY(-1200px) rotate(720deg); opacity: 0; }
+    }
+
+    .bg-bubbles li:nth-child(odd) {
+      width: 25px;
+      height: 25px;
+      animation-duration: 20s;
+    }
+  </style>
+</head>
+
+<body>
+
+
+  <!-- Floating background elements -->
+  <ul class="bg-bubbles">
+    <li></li><li></li><li></li><li></li><li></li>
+    <li></li><li></li><li></li><li></li><li></li>
+  </ul>
+
+  <header>
+    <div class="brand">🌙 Life Diary</div>
+    <div class="nav-buttons">
+      {% if user.is_authenticated %}
+        <span class="text-sm text-gray-200 mr-3">Welcome, {{ user.username }}</span>
+        <a href="{% url 'search_summary' %}">🔍 Search</a>
+        <a href="{% url 'logout' %}">🚪 Logout</a>
+      {% else %}
+        <a href="{% url 'login' %}">Login</a>
+        <a href="{% url 'register' %}">Sign Up</a>
+      {% endif %}
+    </div>
+  </header>
+
+  <main>
+    <div class="glass-card">
+      <h2 class="text-2xl font-semibold mb-6">Write your memory 🌸</h2>
+
+      {% if user.is_authenticated %}
+        <form method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          <textarea name="text_content" placeholder="Describe your moment, feelings, or thoughts..."></textarea>
+
+          <div class="mt-4 text-sm text-gray-300">
+            💡 AI will analyze your emotions and memories automatically.
+          </div>
+
+          <div class="mt-6">
+            <button type="submit">Save Memory</button>
+          </div>
+        </form>
+      {% else %}
+        <p class="login-prompt">
+          🔒 Please <a href="{% url 'login' %}">Login</a> or <a href="{% url 'register' %}">Sign Up</a> to start journaling.
+        </p>
+      {% endif %}
+    </div>
+  </main>
+
+  <footer>
+    © {{ now|date:"Y" }} Life Diary — Your memories, reimagined ✨
+  </footer>
+</body>
+</html>

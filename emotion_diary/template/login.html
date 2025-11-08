@@ -1,0 +1,96 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login | Life Diary</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      font-family: 'Poppins', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 1.5rem;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+      width: 380px;
+      padding: 2.5rem;
+      text-align: center;
+      animation: fadeInUp 0.9s ease;
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .input-field {
+      width: 100%;
+      padding: 12px 15px;
+      margin: 10px 0;
+      border-radius: 12px;
+      border: 1px solid #ddd;
+      outline: none;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .input-field:focus {
+      border-color: #764ba2;
+      box-shadow: 0 0 6px rgba(118, 75, 162, 0.5);
+    }
+
+    button {
+      width: 100%;
+      background: #6c63ff;
+      color: white;
+      font-weight: 600;
+      padding: 12px;
+      border: none;
+      border-radius: 12px;
+      margin-top: 15px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      background: #5848d8;
+    }
+
+    a {
+      color: #6c63ff;
+      font-weight: 500;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  
+
+  <div class="card">
+    <h2 class="text-2xl font-bold text-indigo-600 mb-6">Welcome Back 👋</h2>
+
+    <form method="POST">
+      {% csrf_token %}
+      <input type="text" name="username" placeholder="Username" class="input-field" required>
+      <input type="password" name="password" placeholder="Password" class="input-field" required>
+      <button type="submit">Login</button>
+    </form>
+
+    <p class="text-gray-600 text-sm mt-4">
+      Don’t have an account?
+      <a href="{% url 'register' %}">Create one</a>
+    </p>
+  </div>
+</body>
+</html>
