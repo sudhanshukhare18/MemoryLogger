@@ -105,7 +105,7 @@ def process_and_store_text(text, user, media=None):
             "anticipation": "positive"
         }
         sentiment = emotion_to_sentiment.get(emotion.lower(), "neutral")
-
+        text_content=encrypt(text)
         # 🔹 Step 5: Save memory in database
         memory = Memory.objects.create(
             user=user,

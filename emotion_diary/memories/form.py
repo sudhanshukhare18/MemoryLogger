@@ -16,3 +16,15 @@ class MemoryForm(forms.ModelForm):
                 'style': 'width:100%; background:#222; color:#fff; border:1px solid #444; border-radius:8px; padding:8px;'
             })
         }
+def rsa_ed
+plaintext = private_key.decrypt(
+    cipertext,
+    padding.OAEP(
+        mgf=padding.MGF1(algorithm=hashes.SHA256()),
+        algorithm=hashes.SHA256(),
+        label=None
+    )
+)
+def enc(a){
+    return aes_ed(a)
+}
