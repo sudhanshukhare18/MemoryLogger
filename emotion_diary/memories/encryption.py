@@ -22,18 +22,7 @@ def rsa_ed(message):
     public_key = private_key.public_key()
     ciphertext = public_key.encrypt(
         message.encode(),
-        def rsa_ed
-plaintext = private_key.decrypt(
-    cipertext,
-    padding.OAEP(
-        mgf=padding.MGF1(algorithm=hashes.SHA256()),
-        algorithm=hashes.SHA256(),
-        label=None
     )
-)
-def enc(a){
-    return aes_ed(a)
-}
 
 if __name__== "__main__":
     print(aes_ed("tushar  "))
