@@ -49,8 +49,6 @@
 
 <body class="fade-in">
 
-  
-
   <section class="max-w-3xl mx-auto px-6 py-10">
     <h1 class="text-3xl font-semibold mb-6 text-center text-indigo-300">🔍 Search Your Memories</h1>
 
@@ -74,13 +72,13 @@
 
     <!-- Related Memories -->
     <h2 class="text-lg text-gray-300 mb-3">🗓️ Related Entries</h2>
-    {% for score, m in matches %}
+    {% for memory, text, emotion in matches %}
     <div class="memory-card fade-in">
-      <p class="text-gray-100 mb-2">{{ m.text_content }}</p>
+      <p class="text-gray-100 mb-2">{{ text }}</p>
       <div class="flex justify-between items-center text-sm text-gray-400">
-        <span>{{ m.created_at|date:"F j, Y" }}</span>
-        <span class="emotion-tag emotion-{{ m.emotion_label|default:'neutral' }}">
-          {{ m.emotion_label|default:"neutral" }}
+        <span>{{ memory.created_at|date:"F j, Y" }}</span>
+        <span class="emotion-tag emotion-{{ emotion|default:'neutral' }}">
+          {{ emotion|default:"neutral" }}
         </span>
       </div>
     </div>

@@ -9,6 +9,17 @@ https://docs.djangoproject.com/en/5.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
+import base64, os
+
+from dotenv import load_dotenv
+load_dotenv()
+
+AES_KEY = os.getenv("MYAPP_AES_KEY")
+
+if AES_KEY:
+    AES_KEY = base64.b64decode(AES_KEY)
+else:
+    AES_KEY = b"0123456789ABCDEF0123456789ABCDEF"  # 32 bytes fallback
 
 from pathlib import Path
 
@@ -20,12 +31,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-&$&_b%+3-!!j+0i+9bn)=b^ozh7(b$r+tx#5-g5692j=4*mk$^"
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [*]
 
 
 # Application definition
@@ -77,10 +88,11 @@ WSGI_APPLICATION = "emotion_diary.wsgi.application"
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
+   'default': dj_database_url.config(
+        default='sqlite:///db.sqlite3',
+        conn_max_age=600,
+        ssl_require=False
+    )
 }
 
 
@@ -120,7 +132,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = "static/"
-
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 

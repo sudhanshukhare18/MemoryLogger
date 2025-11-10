@@ -59,7 +59,7 @@ def search_summary(request):
     result = {"summary": "", "matches": []}
 
     if query:
-        result = nlp_service.search_and_summarize(query=query, user=request.user, top_k=5)
+        result = nlp_service.search_and_summarize(query=query, user=request.user, top_k=1)
 
     return render(request, "search_summary.html", {
         "query": query,
