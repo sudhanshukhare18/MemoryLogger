@@ -147,7 +147,8 @@ spacy-loggers==1.0.5
 sqlparse==0.5.3
 srsly==2.5.1
 stack-data==0.6.3
-sympy==1.13.3
+sympy==1.13.1
+
 terminado==0.18.1
 thinc==8.3.6
 threadpoolctl==3.6.0
