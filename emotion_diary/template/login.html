@@ -7,89 +7,241 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     body {
-      background: linear-gradient(135deg, #667eea, #764ba2);
-      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      font-family: 'Georgia', 'Times New Roman', serif;
       min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
+      margin: 0;
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
     }
 
+    /* Subtle texture overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Floating background elements */
+    .bg-bubbles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .bg-bubbles li {
+      position: absolute;
+      list-style: none;
+      display: block;
+      width: 15px;
+      height: 15px;
+      background: rgba(255, 255, 255, 0.03);
+      bottom: -120px;
+      animation: rise 35s infinite;
+      border-radius: 50%;
+      opacity: 0.5;
+    }
+
+    @keyframes rise {
+      0% { transform: translateY(0) rotate(0deg); opacity: 0.2; }
+      50% { opacity: 0.4; }
+      100% { transform: translateY(-1200px) rotate(360deg); opacity: 0; }
+    }
+
+    .bg-bubbles li:nth-child(1) { left: 10%; animation-delay: 0s; }
+    .bg-bubbles li:nth-child(2) { left: 20%; animation-delay: 3s; width: 20px; height: 20px; }
+    .bg-bubbles li:nth-child(3) { left: 35%; animation-delay: 6s; }
+    .bg-bubbles li:nth-child(4) { left: 50%; animation-delay: 2s; width: 18px; height: 18px; }
+    .bg-bubbles li:nth-child(5) { left: 65%; animation-delay: 5s; }
+    .bg-bubbles li:nth-child(6) { left: 80%; animation-delay: 1s; width: 22px; height: 22px; }
+
     .card {
-      background: rgba(255, 255, 255, 0.95);
-      border-radius: 1.5rem;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-      width: 380px;
-      padding: 2.5rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 12px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(15px);
+      width: 100%;
+      max-width: 420px;
+      padding: 3rem;
       text-align: center;
-      animation: fadeInUp 0.9s ease;
+      animation: fadeInUp 0.8s ease;
+      position: relative;
+      z-index: 2;
     }
 
     @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(30px); }
+      from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
+    }
+
+    .brand {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #d4d4d4;
+      margin-bottom: 0.5rem;
+      letter-spacing: 1px;
+    }
+
+    .subtitle {
+      font-size: 0.9rem;
+      color: #909090;
+      margin-bottom: 2rem;
+      font-style: italic;
+    }
+
+    h2 {
+      font-family: 'Georgia', serif;
+      font-weight: 600;
+      letter-spacing: 1px;
+      color: #d4d4d4;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      margin-bottom: 2rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.25rem;
+      text-align: left;
+    }
+
+    label {
+      display: block;
+      font-size: 0.85rem;
+      color: #b0b0b0;
+      margin-bottom: 0.5rem;
+      letter-spacing: 0.5px;
+      font-weight: 500;
     }
 
     .input-field {
       width: 100%;
-      padding: 12px 15px;
-      margin: 10px 0;
-      border-radius: 12px;
-      border: 1px solid #ddd;
+      padding: 0.875rem 1rem;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 6px;
+      color: #e8e8e8;
+      font-family: 'Georgia', serif;
+      font-size: 0.95rem;
       outline: none;
-      font-size: 1rem;
       transition: all 0.3s ease;
+      box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.15);
+    }
+
+    .input-field::placeholder {
+      color: #999;
+      font-style: italic;
     }
 
     .input-field:focus {
-      border-color: #764ba2;
-      box-shadow: 0 0 6px rgba(118, 75, 162, 0.5);
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.35);
+      box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.05), inset 0 2px 6px rgba(0, 0, 0, 0.15);
     }
 
     button {
       width: 100%;
-      background: #6c63ff;
-      color: white;
-      font-weight: 600;
-      padding: 12px;
-      border: none;
-      border-radius: 12px;
-      margin-top: 15px;
+      background: linear-gradient(135deg, #2c3e50, #34495e);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #e8e8e8;
+      font-weight: 500;
+      font-size: 0.95rem;
+      letter-spacing: 0.5px;
+      padding: 0.875rem;
+      border-radius: 6px;
+      margin-top: 0.5rem;
       cursor: pointer;
       transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     }
 
     button:hover {
-      background: #5848d8;
+      background: linear-gradient(135deg, #34495e, #3d566e);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    button:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    .footer-text {
+      text-align: center;
+      color: #a0a0a0;
+      font-size: 0.875rem;
+      margin-top: 1.75rem;
+      padding-top: 1.75rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     a {
-      color: #6c63ff;
-      font-weight: 500;
+      color: #b8c5d6;
       text-decoration: none;
+      font-weight: 500;
+      border-bottom: 1px solid rgba(184, 197, 214, 0.3);
+      transition: all 0.3s ease;
+      padding-bottom: 1px;
     }
 
     a:hover {
-      text-decoration: underline;
+      color: #d4d4d4;
+      border-bottom-color: rgba(212, 212, 212, 0.6);
+    }
+
+    /* Selection styling */
+    ::selection {
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
     }
   </style>
 </head>
 <body>
   
+  <!-- Floating background -->
+  <ul class="bg-bubbles">
+    <li></li><li></li><li></li><li></li><li></li><li></li>
+  </ul>
 
   <div class="card">
-    <h2 class="text-2xl font-bold text-indigo-600 mb-6">Welcome Back 👋</h2>
-
+    <div class="brand">🌙 Life Diary</div>
+    <p class="subtitle">Welcome back to your memories</p>
+    
+    <h2 class="text-2xl">Sign In</h2>
+    
     <form method="POST">
       {% csrf_token %}
-      <input type="text" name="username" placeholder="Username" class="input-field" required>
-      <input type="password" name="password" placeholder="Password" class="input-field" required>
-      <button type="submit">Login</button>
+      
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" placeholder="Enter your username" class="input-field" required>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" placeholder="Enter your password" class="input-field" required>
+      </div>
+
+      <button type="submit">Sign In</button>
     </form>
 
-    <p class="text-gray-600 text-sm mt-4">
-      Don’t have an account?
-      <a href="{% url 'register' %}">Create one</a>
+    <p class="footer-text">
+      Don't have an account?
+      <a href="{% url 'register' %}">Create one here</a>
     </p>
   </div>
 </body>
